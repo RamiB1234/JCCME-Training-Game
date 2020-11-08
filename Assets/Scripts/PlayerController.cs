@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public int health = 10;
     public GameObject healthBar;
     public GameObject groundChecker;
+    public AudioSource jumpSFX;
 
     public float jump = 9.0f;
     public LayerMask groundLayer;
@@ -110,6 +111,7 @@ public class PlayerController : MonoBehaviour
             Vector2 jumpPw = new Vector2(0, jump);
             rbody.AddForce(jumpPw, ForceMode2D.Impulse);
             gonnaJump = false;
+            jumpSFX.Play();
         }
     }
 
