@@ -11,7 +11,9 @@ public class PlayerController : MonoBehaviour
     public int health = 10;
     public GameObject healthBar;
     public GameObject groundChecker;
+
     public AudioSource jumpSFX;
+    public AudioSource hitSFX;
 
     public float jump = 9.0f;
     public LayerMask groundLayer;
@@ -140,7 +142,7 @@ public class PlayerController : MonoBehaviour
         rbody.velocity = new Vector2(0, 0);
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
         if(col.transform.tag == "Needle" && isVulnerable)
         {
@@ -158,8 +160,9 @@ public class PlayerController : MonoBehaviour
     IEnumerator PlayHitEffect()
     {
         isVulnerable = false;
+        hitSFX.Play();
 
-        for (int i=0; i<5;i++)
+        for (int i=0; i<8;i++)
         {
             gameObject.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0);
             yield return new WaitForSeconds(0.05f);
