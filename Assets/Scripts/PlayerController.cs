@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public int health = 10;
     public GameObject healthBar;
     public GameObject groundChecker;
+    public GameObject gameOverMenu;
 
     public AudioSource jumpSFX;
     public AudioSource hitSFX;
@@ -132,8 +133,7 @@ public class PlayerController : MonoBehaviour
     {
         gameState = State.gameOver;
         GameStop();
-        GetComponent<CapsuleCollider2D>().enabled = false;
-        rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
+        gameOverMenu.SetActive(true);
     }
 
     void GameStop()
@@ -147,13 +147,27 @@ public class PlayerController : MonoBehaviour
         if(col.transform.tag == "Needle" && isVulnerable)
         {
             health -= 2;
-            StartCoroutine(PlayHitEffect());
+            if(health<=0)
+            {
+                GameOver();
+            }
+            else
+            {
+                StartCoroutine(PlayHitEffect());
+            }
         }
 
         if (col.transform.tag == "SpikeyEnemy" && isVulnerable)
         {
             health -= 4;
-            StartCoroutine(PlayHitEffect());
+            if (health <= 0)
+            {
+                GameOver();
+            }
+            else
+            {
+                StartCoroutine(PlayHitEffect());
+            }
         }
     }
 
