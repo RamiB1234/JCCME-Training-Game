@@ -8,6 +8,7 @@ TagManager:
   - Goal
   - Needle
   - SpikeyEnemy
+  - FireSpell
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - Ground
   - InvisibleWall
   - Player
-  - 
-  - 
+  - Spell
+  - Enemy
   - 
   - 
   - 

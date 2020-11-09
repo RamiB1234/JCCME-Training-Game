@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public GameObject healthBar;
     public GameObject groundChecker;
     public GameObject gameOverMenu;
+    public GameObject fireSpell;
+    public GameObject shootingRightSpot;
+    public GameObject shootingLeftSpot;
 
     public AudioSource jumpSFX;
     public AudioSource hitSFX;
@@ -63,11 +67,11 @@ public class PlayerController : MonoBehaviour
         axisH = Input.GetAxisRaw("Horizontal");
         if (axisH > 0.0f)
         {
-            transform.localRotation = Quaternion.Euler(0, 0, 0);
+            GetComponent<SpriteRenderer>().flipX = false;
         }
         else if (axisH < 0.0f)
         {
-            transform.localRotation = Quaternion.Euler(0, 180, 0);
+            GetComponent<SpriteRenderer>().flipX = true;
         }
 
         if(axisH !=0 && onGround)
@@ -92,6 +96,35 @@ public class PlayerController : MonoBehaviour
         {
             Jump();
         }
+
+        if (Input.GetKeyDown("f"))
+        {
+            ForeSpell();
+        }
+    }
+
+    void ForeSpell()
+    {
+
+        var facingLeft = GetComponent<SpriteRenderer>().flipX;
+        if(facingLeft)
+        {
+            var spell = Instantiate(fireSpell, shootingLeftSpot.transform.position, Quaternion.identity);
+            spell.GetComponent<Rigidbody2D>().velocity = new Vector2(-8, 0);
+            StartCoroutine(DestroySpell(spell));
+        }
+        else
+        {
+            var spell = Instantiate(fireSpell, shootingRightSpot.transform.position, Quaternion.identity);
+            spell.GetComponent<Rigidbody2D>().velocity = new Vector2(8, 0);
+            StartCoroutine(DestroySpell(spell));
+        }
+    }
+
+    IEnumerator DestroySpell(GameObject spell)
+    {
+        yield return new WaitForSeconds(1);
+        Destroy(spell);
     }
 
     void FixedUpdate()
