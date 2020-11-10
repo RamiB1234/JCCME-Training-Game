@@ -202,6 +202,18 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(PlayHitEffect());
             }
         }
+
+        if (col.transform.tag == "DeathTrigger")
+        {
+            health =0;
+            GameOver();
+        }
+
+        if (col.transform.tag == "HeartPickup")
+        {
+            health += 3;
+            Destroy(col.gameObject);
+        }
     }
 
     IEnumerator PlayHitEffect()
