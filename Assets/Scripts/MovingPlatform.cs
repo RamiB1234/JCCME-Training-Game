@@ -8,6 +8,7 @@ public class MovingPlatform : MonoBehaviour
     public bool isVertical = true;
     public GameObject startLimit;
     public GameObject endLimit;
+    private bool allowChangeDirection=true;
 
     void Start()
     {
@@ -25,19 +26,45 @@ public class MovingPlatform : MonoBehaviour
     {
         if (isVertical)
         {
-            if (transform.position.y < startLimit.transform.position.y ||
-                transform.position.y > endLimit.transform.position.y)
+            if (transform.position.y <= startLimit.transform.position.y ||
+                transform.position.y >= endLimit.transform.position.y)
             {
-                GetComponent<Rigidbody2D>().velocity *= -1;
+                if(allowChangeDirection)
+                {
+                    StartCoroutine(ReverseDrection());
+                    allowChangeDirection = false;
+                    StartCoroutine(AllowChangingDirection());
+                }
             }
         }
         else
         {
-            if (transform.position.x < startLimit.transform.position.x ||
-                transform.position.x > endLimit.transform.position.x)
+            if (transform.position.x <= startLimit.transform.position.x ||
+                transform.position.x >= endLimit.transform.position.x)
             {
-                GetComponent<Rigidbody2D>().velocity *= -1;
+                if (allowChangeDirection)
+                {
+                    StartCoroutine(ReverseDrection());
+                    allowChangeDirection = false;
+                    StartCoroutine(AllowChangingDirection());
+                }
             }
         }
+    }
+
+    IEnumerator ReverseDrection()
+    {
+        var originalVel = GetComponent<Rigidbody2D>().velocity;
+
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        yield return new WaitForSeconds(0.35f);
+        GetComponent<Rigidbody2D>().velocity = originalVel;
+        GetComponent<Rigidbody2D>().velocity *= -1;
+    }
+
+    IEnumerator AllowChangingDirection()
+    {
+        yield return new WaitForSeconds(0.5f);
+        allowChangeDirection = true;
     }
 }
