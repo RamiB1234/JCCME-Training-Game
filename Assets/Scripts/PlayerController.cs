@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public float speed = 3.0f;
     public int health = 10;
     public GameObject healthBar;
+    public GameObject spellBar;
     public GameObject groundChecker;
     public GameObject gameOverMenu;
     public GameObject pauseMenu;
@@ -130,19 +131,22 @@ public class PlayerController : MonoBehaviour
 
     void ForeSpell()
     {
-
-        var facingLeft = GetComponent<SpriteRenderer>().flipX;
-        if(facingLeft)
+        if(spellBar.GetComponent<Slider>().value == 1f)
         {
-            var spell = Instantiate(fireSpell, shootingLeftSpot.transform.position, Quaternion.identity);
-            spell.GetComponent<Rigidbody2D>().velocity = new Vector2(-8, 0);
-            StartCoroutine(DestroySpell(spell));
-        }
-        else
-        {
-            var spell = Instantiate(fireSpell, shootingRightSpot.transform.position, Quaternion.identity);
-            spell.GetComponent<Rigidbody2D>().velocity = new Vector2(8, 0);
-            StartCoroutine(DestroySpell(spell));
+            spellBar.GetComponent<Slider>().value = 0;
+            var facingLeft = GetComponent<SpriteRenderer>().flipX;
+            if (facingLeft)
+            {
+                var spell = Instantiate(fireSpell, shootingLeftSpot.transform.position, Quaternion.identity);
+                spell.GetComponent<Rigidbody2D>().velocity = new Vector2(-8, 0);
+                StartCoroutine(DestroySpell(spell));
+            }
+            else
+            {
+                var spell = Instantiate(fireSpell, shootingRightSpot.transform.position, Quaternion.identity);
+                spell.GetComponent<Rigidbody2D>().velocity = new Vector2(8, 0);
+                StartCoroutine(DestroySpell(spell));
+            }
         }
     }
 
@@ -174,6 +178,12 @@ public class PlayerController : MonoBehaviour
             gonnaJump = false;
             jumpSFX.Play();
         }
+        if(spellBar.GetComponent<Slider>().value<1)
+        {
+            spellBar.GetComponent<Slider>().value += 0.005f;
+        }
+
+
     }
 
     void Jump()
