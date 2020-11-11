@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public GameObject fireSpell;
     public GameObject shootingRightSpot;
     public GameObject shootingLeftSpot;
+    public GameObject howToPlay;
     public bool isPaused = false;
 
     public AudioSource jumpSFX;
@@ -119,6 +120,11 @@ public class PlayerController : MonoBehaviour
         {
             pauseMenu.SetActive(false);
             Time.timeScale = 1;
+        }
+
+        if (howToPlay.GetComponent<CanvasGroup>().alpha > 0)
+        {
+            howToPlay.GetComponent<CanvasGroup>().alpha -= 0.004f;
         }
     }
 

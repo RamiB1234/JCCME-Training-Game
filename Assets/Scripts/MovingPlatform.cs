@@ -10,7 +10,7 @@ public class MovingPlatform : MonoBehaviour
     private bool allowChangeDirection=true;
 
 
-    void Update()
+    void FixedUpdate()
     {
         if (isVertical)
         {
