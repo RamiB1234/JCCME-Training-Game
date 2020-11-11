@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
@@ -10,56 +9,62 @@ public class MovingPlatform : MonoBehaviour
     public GameObject endLimit;
     private bool allowChangeDirection=true;
 
-    void Start()
-    {
-        if(isVertical)
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(0, 1 * speed);
-        }
-        else
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(1 * speed, 0);
-        }
-    }
 
     void Update()
     {
         if (isVertical)
         {
-            if (transform.position.y <= startLimit.transform.position.y ||
-                transform.position.y >= endLimit.transform.position.y)
+            transform.Translate(new Vector3(0, 1 * speed, 0));
+        }
+        else
+        {
+            transform.Translate(new Vector3(1 * speed, 0, 0));
+        }
+
+        if (isVertical)
+        {
+            if (transform.position.y <= startLimit.transform.position.y)
             {
                 if(allowChangeDirection)
                 {
-                    StartCoroutine(ReverseDrection());
                     allowChangeDirection = false;
                     StartCoroutine(AllowChangingDirection());
+                    speed *= -1;
+
+                }
+            }
+            else if(transform.position.y >= endLimit.transform.position.y)
+            {
+                if (allowChangeDirection)
+                {
+                    allowChangeDirection = false;
+                    StartCoroutine(AllowChangingDirection());
+                    speed *= -1;
                 }
             }
         }
         else
         {
-            if (transform.position.x <= startLimit.transform.position.x ||
-                transform.position.x >= endLimit.transform.position.x)
+            if (transform.position.x <= startLimit.transform.position.x)
             {
                 if (allowChangeDirection)
                 {
-                    StartCoroutine(ReverseDrection());
                     allowChangeDirection = false;
                     StartCoroutine(AllowChangingDirection());
+                    speed *= -1;
+
+                }
+            }
+            else if (transform.position.x >= endLimit.transform.position.x)
+            {
+                if (allowChangeDirection)
+                {
+                    allowChangeDirection = false;
+                    StartCoroutine(AllowChangingDirection());
+                    speed *= -1;
                 }
             }
         }
-    }
-
-    IEnumerator ReverseDrection()
-    {
-        var originalVel = GetComponent<Rigidbody2D>().velocity;
-
-        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        yield return new WaitForSeconds(0.35f);
-        GetComponent<Rigidbody2D>().velocity = originalVel;
-        GetComponent<Rigidbody2D>().velocity *= -1;
     }
 
     IEnumerator AllowChangingDirection()

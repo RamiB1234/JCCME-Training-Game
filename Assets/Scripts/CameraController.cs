@@ -28,7 +28,8 @@ public class CameraController : MonoBehaviour
 
         Vector3 targetDirection = (target.transform.position - posNoZ);
 
-        if (target.GetComponent<Rigidbody2D>().velocity.x >0 && target.transform.position.x >= movingLimit.transform.position.x)
+        if ((target.GetComponent<Rigidbody2D>().velocity.x >0 && target.transform.position.x >= movingLimit.transform.position.x)
+            || (target.transform.parent != null && (target.transform.parent.tag == "MovingPlatform")))
         {
 
 

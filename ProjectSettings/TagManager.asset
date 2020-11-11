@@ -11,6 +11,7 @@ TagManager:
   - FireSpell
   - DeathTrigger
   - HeartPickup
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

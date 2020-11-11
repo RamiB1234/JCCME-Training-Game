@@ -216,6 +216,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.transform.tag=="MovingPlatform")
+        {
+            transform.parent = collision.transform;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.transform.tag == "MovingPlatform")
+        {
+            transform.parent = null;
+        }
+    }
+
     IEnumerator PlayHitEffect()
     {
         isVulnerable = false;
