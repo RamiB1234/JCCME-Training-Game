@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public GameObject healthBar;
     public GameObject groundChecker;
     public GameObject gameOverMenu;
+    public GameObject demoEndMenu;
     public GameObject fireSpell;
     public GameObject shootingRightSpot;
     public GameObject shootingLeftSpot;
@@ -213,6 +214,10 @@ public class PlayerController : MonoBehaviour
         {
             health += 3;
             Destroy(col.gameObject);
+        }
+        if (col.transform.tag == "Goal")
+        {
+            demoEndMenu.SetActive(true);
         }
     }
 
