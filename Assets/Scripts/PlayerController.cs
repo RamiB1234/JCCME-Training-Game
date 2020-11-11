@@ -13,10 +13,12 @@ public class PlayerController : MonoBehaviour
     public GameObject healthBar;
     public GameObject groundChecker;
     public GameObject gameOverMenu;
+    public GameObject pauseMenu;
     public GameObject demoEndMenu;
     public GameObject fireSpell;
     public GameObject shootingRightSpot;
     public GameObject shootingLeftSpot;
+    public bool isPaused = false;
 
     public AudioSource jumpSFX;
     public AudioSource hitSFX;
@@ -101,6 +103,22 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown("f"))
         {
             ForeSpell();
+        }
+
+        if (Input.GetKeyDown("p") || Input.GetKeyDown("escape"))
+        {
+            isPaused = !isPaused;
+        }
+
+        if(isPaused)
+        {
+            pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            pauseMenu.SetActive(false);
+            Time.timeScale = 1;
         }
     }
 
